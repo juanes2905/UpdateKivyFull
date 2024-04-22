@@ -14,11 +14,11 @@ def login(self):
             response = requests.post(url, data=data)
                 
             if response.status_code == 200:
-                json_response = response.json()                #logging.info(json_response)
+                json_response = response.json()                
                 if json_response.get('success'):
                     self.screen_manager.current = "newview"
                     self.principal.ids.top_app_bar.right_action_items=[["logout", lambda x: self.confirm_logout()]]
-                    logging.info("VIEW: Ingresando a la vista")
+                    logging.info("VIEW: INGRESANDO A LA VISTA")
                     logging.info("-----------------------------------------------------")
                 else:
                     toast("Correo electrónico o contraseña incorrectos")
@@ -29,3 +29,4 @@ def login(self):
             toast("Error de conexión al servidor")
     else:
         toast("Debe ingresar correo electrónico y contraseña")
+

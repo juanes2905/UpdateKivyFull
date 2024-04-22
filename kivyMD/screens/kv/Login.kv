@@ -25,6 +25,9 @@ MDScreen:
             id: validaInp
             icon_left: "account-edit"
             mode: "round"
+            text_color_focus: "black"
+            icon_right_color_focus: "black"
+            hint_text_color_focus: "black"
             size_hint: .5, None
             normal_color: [0,0,0,.25]
             active_color: [0,0,0,.25]
@@ -37,6 +40,9 @@ MDScreen:
             id: inpPass
             icon_left: "account-key"
             mode: "round"
+            text_color_focus: "black"
+            icon_right_color_focus: "black"
+            hint_text_color_focus: "black"
             size_hint: .5, None
             normal_color: [0,0,0,.25]
             active_color: [0,0,0,.25]
@@ -46,6 +52,7 @@ MDScreen:
             on_text: self.text = self.text.replace(" ", "")
             hint_text: "Contraseña"
             password: True
+
     MDRaisedButton:
         text: "       Ingresar        "
         size_hint: .3, None

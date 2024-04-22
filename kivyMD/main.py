@@ -7,15 +7,16 @@ from kivymd.app import MDApp
 from kivymd.uix.bottomsheet import MDGridBottomSheet
 from kivymd.uix.card import MDCardSwipe
 from kivymd.uix.dialog import MDDialog
-from kivymd.uix.label import MDLabel
-from kivy.uix.modalview import ModalView
-from kivy.properties import ObjectProperty
 from kivymd.uix.button import MDFlatButton
 from kivymd.toast import toast
 from kivy.properties import StringProperty
 from screens.py.login import login
-from screens.py.users import verUsers
-from kivymd.uix.progressbar import MDProgressBar
+from screens.py.users import inserUsers
+from screens.py.buscarUsuarios import buscarUsuario
+from kivy.uix.label import Label
+from kivymd.uix.spinner import MDSpinner
+from kivy.metrics import dp
+
 
 if platform == "win":
     Window.minimum_width = 380
@@ -49,6 +50,8 @@ class Tarea(MDApp):
         self.screen_manager.add_widget(self.Navegacion)
         self.users = Builder.load_file("screens/kv/usuarios.kv")
         self.screen_manager.add_widget(self.users)
+        self.Data = Builder.load_file("screens/kv/data.kv")
+        self.screen_manager.add_widget(self.Data)
 
         self.principal = Builder.load_file("screens/kv/principal.kv")
         self.principal.ids.contenedor.add_widget(self.screen_manager)
@@ -63,31 +66,36 @@ class Tarea(MDApp):
         self.newStyle.ids.md_list.add_widget(SwipeToDeleteItem(text="Aplicaciones"))
         self.newStyle.ids.md_list.add_widget(SwipeToDeleteItem(text="Navegacion"))
         self.newStyle.ids.md_list.add_widget(SwipeToDeleteItem(text="Datos"))
+        self.newStyle.ids.md_list.add_widget(SwipeToDeleteItem(text="Buscar"))
 
     def remove_item(self, instance):
         self.newStyle.ids.md_list.remove_widget(instance)
 
     def listaView(self, item_text):
         Comunicado = "LOAD: CARGANDO LA VISTA"
+        line = "-----------------------------------------------------"
         if item_text == "Aplicaciones":
             self.screen_manager.current = "desplegable"
             logging.info(Comunicado)
-            logging.info("-----------------------------------------------------")
+            logging.info(line)
             self.principal.ids.top_app_bar.right_action_items=[["arrow-left", lambda x: self.volver_a_newview()]]
         elif item_text == "Navegacion":
             self.screen_manager.current = "navegacionApp"
             logging.info(Comunicado)
-            logging.info("-----------------------------------------------------")
+            logging.info(line)
             self.principal.ids.top_app_bar.right_action_items=[["arrow-left", lambda x: self.volver_a_newview()]]
         elif item_text == "Datos":
-            self.screen_manager.current = "users"
+            self.screen_manager.current = "InsertU"
             logging.info(Comunicado)
-            logging.info("-----------------------------------------------------")
+            logging.info(line)
             self.principal.ids.top_app_bar.right_action_items=[["arrow-left", lambda x: self.volver_a_newview()]]
-    
-    def verUsers(self):
-        pass
+        elif item_text == "Buscar":
+            self.screen_manager.current = "data"
+            logging.info(Comunicado)
+            logging.info(line)
+            self.principal.ids.top_app_bar.right_action_items=[["arrow-left", lambda x: self.volver_a_newview()]]
 
+    
     def callback_for_menu_items(self, *args):
         toast(args[0])
 
@@ -152,9 +160,12 @@ class Tarea(MDApp):
 
     def ingresar(self):
         login(self)
-        
-    def ver(self):
-        verUsers(self)
+
+    def InsersPruebas(self):
+        inserUsers(self)
+
+    def buscarUsuarios(self):
+        buscarUsuario(self)
 
     def volver_a_newview(self):
         self.screen_manager.current = "newview"
@@ -162,6 +173,11 @@ class Tarea(MDApp):
         logging.info("-----------------------------------------------------")
         self.principal.ids.top_app_bar.right_action_items=[["logout", lambda x: self.confirm_logout()]]
 
+    def Hola(self):
+        for x in range(1, 49):
+            self.Data.ids.container.add_widget(
+                Label(text=f"{x}", color=[0, 0, 0, 1])
+            )
 
 if __name__ == "__main__":
     Tarea().run()
